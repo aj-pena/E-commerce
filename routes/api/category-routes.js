@@ -16,8 +16,9 @@ router.get('/', async (req, res) => {
   // be sure to include its associated Products
 });
 
+// find one category by its `id` value
 router.get('/:id', async (req, res) => {
-  // find one category by its `id` value
+  
   try {
     const category = await Category.findByPk(req.params.id);
     res.status(200).json(category); 
@@ -29,8 +30,9 @@ router.get('/:id', async (req, res) => {
   // be sure to include its associated Products
 });
 
+ // create a new category
 router.post('/', (req, res) => {
-  // create a new category
+ 
   // {
   // category_name: "sports", 
   // }
@@ -45,12 +47,21 @@ router.post('/', (req, res) => {
   });
 });
 
+// update a category by its `id` value
 router.put('/:id', (req, res) => {
-  // update a category by its `id` value
+  Category.update(req.body, {
+    where: {
+      id: req.params.id,
+    },
+  })
+  .then((updatedCategory) => res.json(updatedCategory))
+  .catch((err) => {
+    res.status(400).json(err);
+  });
 });
 
-router.delete('/:id', (req, res) => {
-  // delete a category by its `id` value
+// delete a category by its `id` value
+router.delete('/:id', (req, res) => {  
   Category.destroy({
     where:{
       id: req.params.id,
