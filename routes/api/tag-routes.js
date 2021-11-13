@@ -14,8 +14,18 @@ router.get('/', async (req, res) => {
   // be sure to include its associated Product data
 });
 // find a single tag by its `id`
-router.get('/:id', (req, res) => {
-  
+router.get('/:id', async (req, res) => {
+  try {
+    let tag = await Tag.findOne({
+      where:{
+        id: req.params.id,
+      }
+    });
+    res.status(200).json(tag);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
   // be sure to include its associated Product data
 });
 // create a new tag
